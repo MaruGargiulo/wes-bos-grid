@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>CSS Grid Image Gallery!</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <div class="overlay">
+      <div class="overlay-inner">
+        <button class="close">× Close</button>
+        <img />
+      </div>
+    </div>
+
+    <div class="gallery__img">
+      <div class="image-overlay">
+        <button class="view">View →</button>
+      </div>
+    </div>
+
+    <section class="gallery"></section>
+
+    <script>
+      const gallery = document.querySelector(".gallery");
+      const overlay = document.querySelector(".overlay");
+      const overlayImg = overlay.querySelector("img");
+      const closeButton = document.querySelector(".close");
+
+      let imgWrapperSkeleton = document.querySelector(".gallery__img");
+
+      closeButton.addEventListener("click", (e) => {
+        overlay.classList.remove("open");
+        overlayImg.src = "";
+      });
+
+      const getRandomMatrix = () => Math.floor(Math.random() * 4) + 1;
+
+      const showOverlayImg = (src) => {
+        overlay.classList.add("open");
+        overlayImg.src = src;
+      };
+
+      for (let i = 1; i < 12; i++) {
+        const newWrapper = imgWrapperSkeleton.cloneNode(true);
+        const viewImageBtn = newWrapper.querySelector(".view");
+
+        let image = new Image();
+        image.src = `./images/${i}.jpg`;
+
+        viewImageBtn.addEventListener("click", () => {
+          showOverlayImg(image.src);
+        });
+
+        newWrapper.style.gridColumn = `span ${getRandomMatrix()}`;
+        newWrapper.style.gridRow = `span ${getRandomMatrix()}`;
+
+        newWrapper.appendChild(image);
+        gallery.appendChild(newWrapper);
+      }
+    </script>
+  </body>
+</html>
